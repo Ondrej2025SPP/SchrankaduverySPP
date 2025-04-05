@@ -1,34 +1,41 @@
 
+const firebaseConfig = {
+  apiKey: "AIzaSyDcJGaeBBHDsOhwFrAzR45-QNym-MsO2SA",
+  authDomain: "schranka-duvery-spp.firebaseapp.com",
+  databaseURL: "https://schranka-duvery-spp-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "schranka-duvery-spp",
+  storageBucket: "schranka-duvery-spp.appspot.com",
+  messagingSenderId: "189730453261",
+  appId: "1:189730453261:web:9c90552966f3f94a4c1926"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
 function login() {
-  const pass = document.getElementById('adminPass').value;
-  if (pass === 'schrankaduverySPP2025') {
-    document.getElementById('login-section').style.display = 'none';
-    document.getElementById('admin-section').style.display = 'block';
-    loadMessages();
+  const pwd = document.getElementById("adminPassword").value;
+  if (pwd === "schrankaduverySPP2025") {
+    document.getElementById("loginSection").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
+    db.ref("messages").once("value", snapshot => {
+      const list = document.getElementById("messagesList");
+      list.innerHTML = "";
+      snapshot.forEach(child => {
+        const code = child.key;
+        const data = child.val();
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${code}</strong>: ${data.message}<br>
+        <textarea id="resp-${code}" placeholder="Odpověď...">${data.response || ""}</textarea>
+        <button onclick="saveResponse('${code}')">Uložit odpověď</button>`;
+        list.appendChild(li);
+      });
+    });
   } else {
-    alert('Nesprávné heslo');
+    alert("Nesprávné heslo!");
   }
 }
 
-function loadMessages() {
-  const list = document.getElementById('messageList');
-  list.innerHTML = '';
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key.startsWith('msg_')) {
-      const data = JSON.parse(localStorage.getItem(key));
-      const li = document.createElement('li');
-      li.innerHTML = `<strong>${key.slice(4)}</strong>: ${data.message}<br>
-        <textarea placeholder='Odpověď...'>${data.response || ''}</textarea>
-        <button onclick="saveResponse('${key}', this.previousElementSibling.value)">Uložit odpověď</button>`;
-      list.appendChild(li);
-    }
-  }
-}
-
-function saveResponse(key, response) {
-  const data = JSON.parse(localStorage.getItem(key));
-  data.response = response;
-  localStorage.setItem(key, JSON.stringify(data));
-  alert('Odpověď uložena.');
+function saveResponse(code) {
+  const response = document.getElementById("resp-" + code).value;
+  db.ref("messages/" + code).update({ response: response });
+  alert("Odpověď uložena.");
 }

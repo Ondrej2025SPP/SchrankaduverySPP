@@ -1,35 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <title>Schránka důvěry – Právní poradna SPP</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SPP – Schránka důvěry</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <img src="header.jpg" alt="Poradci" class="header-img">
-    <h1>Schránka důvěry – Právní poradna SPP</h1>
-    <p class="intro">
-      Bezpečné místo pro anonymní sdílení problémů, podnětů či zpětné vazby.
-      Vaše identita zůstane chráněná. Odpověď naleznete po zadání anonymního kódu.
-    </p>
-    <div id="form-section">
-      <textarea id="messageInput" placeholder="Napište svou zprávu..." required></textarea>
-      <button onclick="submitMessage()">Odeslat anonymně</button>
-    </div>
-    <div id="code-display" style="display:none;">
-      <p>Vaše zpráva byla odeslána. Uložte si tento anonymní kód:</p>
-      <h2 id="generatedCode"></h2>
-    </div>
-    <hr>
-    <div id="response-section">
-      <h3>Zobrazit odpověď</h3>
-      <input type="text" id="codeInput" placeholder="Zadejte anonymní kód">
+  <header>
+    <img src="header.jpg" alt="Poradce" class="avatar">
+    <h1>SPP – Anonymní schránka důvěry</h1>
+  </header>
+  <main>
+    <form id="trustBoxForm">
+      <textarea id="messageInput" placeholder="Napiš anonymní zprávu..." required></textarea>
+      <button type="submit">Odeslat</button>
+    </form>
+    <div id="codeDisplay" style="display:none;"></div>
+    <div id="responseSection">
+      <input type="text" id="codeInput" placeholder="Zadej anonymní kód pro zobrazení odpovědi">
       <button onclick="checkResponse()">Zobrazit odpověď</button>
-      <p id="responseDisplay"></p>
+      <div id="responseContainer"></div>
     </div>
-  </div>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
