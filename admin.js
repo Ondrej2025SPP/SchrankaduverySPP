@@ -9,26 +9,24 @@ function login() {
     alert('Nesprávné heslo');
   }
 }
-
 function loadMessages() {
   const list = document.getElementById('messageList');
   list.innerHTML = '';
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key.startsWith('msg_')) {
-      const data = JSON.parse(localStorage.getItem(key));
+  firebase.database().ref('messages/').once('value').then(snapshot => {
+    snapshot.forEach(child => {
+      const code = child.key;
+      const data = child.val();
       const li = document.createElement('li');
-      li.innerHTML = `<strong>${key.slice(4)}</strong>: ${data.message}<br>
-        <textarea placeholder='Odpověď...'>${data.response || ''}</textarea>
-        <button onclick="saveResponse('${key}', this.previousElementSibling.value)">Uložit odpověď</button>`;
+      li.innerHTML = `<strong>${code}</strong>: ${data.message}<br>
+        <textarea>${data.response || ''}</textarea>
+        <button onclick="saveResponse('${code}', this.previousElementSibling.value)">Uložit odpověď</button>`;
       list.appendChild(li);
-    }
-  }
+    });
+  });
 }
-
-function saveResponse(key, response) {
-  const data = JSON.parse(localStorage.getItem(key));
-  data.response = response;
-  localStorage.setItem(key, JSON.stringify(data));
-  alert('Odpověď uložena.');
+function saveResponse(code, response) {
+  firebase.database().ref('messages/' + code).update({ response: response }, () => {
+    alert('Odpověď uložena.');
+    loadMessages();
+  });
 }

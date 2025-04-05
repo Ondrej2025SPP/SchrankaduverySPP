@@ -1,34 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <title>Schránka důvěry – Právní poradna SPP</title>
+  <title>Schránka důvěry – SPP</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {'apiKey': 'AIzaSyDcJGaeBBHDsOhwFrAzR45-QNym-MsO2SA', 'authDomain': 'schranka-duvery-spp.firebaseapp.com', 'databaseURL': 'https://schranka-duvery-spp-default-rtdb.europe-west1.firebasedatabase.app', 'projectId': 'schranka-duvery-spp', 'storageBucket': 'schranka-duvery-spp.appspot.com', 'messagingSenderId': '189730453261', 'appId': '1:189730453261:web:9c90552966f3f94a4c1926'};
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
 </head>
 <body>
   <div class="container">
-    <img src="header.jpg" alt="Poradci" class="header-img">
     <h1>Schránka důvěry – Právní poradna SPP</h1>
-    <p class="intro">
-      Bezpečné místo pro anonymní sdílení problémů, podnětů či zpětné vazby.
-      Vaše identita zůstane chráněná. Odpověď naleznete po zadání anonymního kódu.
-    </p>
-    <div id="form-section">
-      <textarea id="messageInput" placeholder="Napište svou zprávu..." required></textarea>
-      <button onclick="submitMessage()">Odeslat anonymně</button>
-    </div>
+    <textarea id="messageInput" placeholder="Napište svou zprávu..."></textarea>
+    <button onclick="submitMessage()">Odeslat anonymně</button>
     <div id="code-display" style="display:none;">
-      <p>Vaše zpráva byla odeslána. Uložte si tento anonymní kód:</p>
+      <p>Uložte si anonymní kód:</p>
       <h2 id="generatedCode"></h2>
     </div>
     <hr>
-    <div id="response-section">
-      <h3>Zobrazit odpověď</h3>
-      <input type="text" id="codeInput" placeholder="Zadejte anonymní kód">
-      <button onclick="checkResponse()">Zobrazit odpověď</button>
-      <p id="responseDisplay"></p>
-    </div>
+    <input type="text" id="codeInput" placeholder="Zadejte anonymní kód">
+    <button onclick="checkResponse()">Zobrazit odpověď</button>
+    <p id="responseDisplay"></p>
   </div>
   <script src="script.js"></script>
 </body>

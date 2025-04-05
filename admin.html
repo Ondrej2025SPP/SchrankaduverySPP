@@ -1,16 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <title>Administrace – SPP</title>
+  <title>Admin – SPP</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {'apiKey': 'AIzaSyDcJGaeBBHDsOhwFrAzR45-QNym-MsO2SA', 'authDomain': 'schranka-duvery-spp.firebaseapp.com', 'databaseURL': 'https://schranka-duvery-spp-default-rtdb.europe-west1.firebasedatabase.app', 'projectId': 'schranka-duvery-spp', 'storageBucket': 'schranka-duvery-spp.appspot.com', 'messagingSenderId': '189730453261', 'appId': '1:189730453261:web:9c90552966f3f94a4c1926'};
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
 </head>
 <body>
   <div class="container">
     <h1>Administrace – Schránka důvěry</h1>
     <div id="login-section">
-      <input type="password" id="adminPass" placeholder="Zadej heslo">
+      <input type="password" id="adminPass" placeholder="Zadejte heslo">
       <button onclick="login()">Přihlásit</button>
     </div>
     <div id="admin-section" style="display:none;">
