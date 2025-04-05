@@ -1,19 +1,53 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDcJGaeBBHDsOhwFrAzR45-QNym-MsO2SA",
+  apiKey: "AIzaSyByfibBg6Omq6nTfM4oDj6Vo6fKUhgn5Ls",
   authDomain: "schranka-duvery-spp.firebaseapp.com",
   databaseURL: "https://schranka-duvery-spp-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "schranka-duvery-spp",
   storageBucket: "schranka-duvery-spp.appspot.com",
-  messagingSenderId: "189730453261",
-  appId: "1:189730453261:web:9c90552966f3f94a4c1926"
+  messagingSenderId: "357685746373",
+  appId: "1:357685746373:web:06c96b84c8043310e86eac",
+  measurementId: "G-1F2LRT5EPZ"
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 
-document.getElementById('trustBoxForm').addEventListener('submit', function(e) {
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+document.getElementById("questionForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const message = document.getElementById('messageInput').value;
-  const code = Math.random().toString(36).substring(2, 10);
-  db.ref('messages/' + code).set({ message: message });
-  document.getElementById('codeDisplay').textContent = "Tvůj anonymní kód: " + code;
+  const question = document.getElementById("questionInput").value.trim();
+  const code = Math.random().toString(36).substring(2, 10).toUpperCase();
+
+  await addDoc(collection(db, "queries"), {
+    question,
+    answer: "",
+    code,
+    timestamp: serverTimestamp()
+  });
+
+  document.getElementById("questionCode").innerText = "Tvůj kód: " + code;
+});
+
+document.getElementById("checkForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const code = document.getElementById("codeInput").value.trim().toUpperCase();
+  const q = query(collection(db, "queries"), where("code", "==", code));
+  const querySnapshot = await getDocs(q);
+  let found = false;
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    document.getElementById("answerSection").innerHTML = `<p><strong>Dotaz:</strong> ${data.question}</p><p><strong>Odpověď:</strong> ${data.answer || "Zatím bez odpovědi"}</p>`;
+    found = True;
+  });
+
+  if (!found) {
+    document.getElementById("answerSection").innerText = "Kód nebyl nalezen.";
+  }
 });
