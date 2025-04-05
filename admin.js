@@ -1,41 +1,50 @@
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+// Firebase konfigurace – ověřená dle uživatelem zaslaného screenshotu
 const firebaseConfig = {
-  apiKey: "AIzaSyDcJGaeBBHDsOhwFrAzR45-QNym-MsO2SA",
+  apiKey: "AIzaSyByfibBg6OmQn6TfM40Dj6Vo6fKUhgn5Ls",
   authDomain: "schranka-duvery-spp.firebaseapp.com",
   databaseURL: "https://schranka-duvery-spp-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "schranka-duvery-spp",
   storageBucket: "schranka-duvery-spp.appspot.com",
-  messagingSenderId: "189730453261",
-  appId: "1:189730453261:web:9c90552966f3f94a4c1926"
+  messagingSenderId: "357685746373",
+  appId: "1:357685746373:web:06c96b84c8043310e86eac",
+  measurementId: "G-1FL2RT5EPZ"
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 
-function login() {
-  const pwd = document.getElementById("adminPassword").value;
-  if (pwd === "schrankaduverySPP2025") {
-    document.getElementById("loginSection").style.display = "none";
-    document.getElementById("adminPanel").style.display = "block";
-    db.ref("messages").once("value", snapshot => {
-      const list = document.getElementById("messagesList");
-      list.innerHTML = "";
-      snapshot.forEach(child => {
-        const code = child.key;
-        const data = child.val();
-        const li = document.createElement("li");
-        li.innerHTML = `<strong>${code}</strong>: ${data.message}<br>
-        <textarea id="resp-${code}" placeholder="Odpověď...">${data.response || ""}</textarea>
-        <button onclick="saveResponse('${code}')">Uložit odpověď</button>`;
-        list.appendChild(li);
-      });
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const messagesRef = ref(db, "messages");
+
+onValue(messagesRef, (snapshot) => {
+  const data = snapshot.val();
+  const container = document.getElementById("adminMessages");
+  container.innerHTML = "";
+
+  if (data) {
+    Object.entries(data).forEach(([code, obj]) => {
+      const div = document.createElement("div");
+      div.className = "message";
+      div.innerHTML = `
+        <p><strong>Kód:</strong> ${code}</p>
+        <p><strong>Zpráva:</strong> ${obj.message}</p>
+        <p><strong>Odpověď:</strong> ${obj.response || "zatím žádná"}</p>
+        <textarea id="response-${code}" rows="2" placeholder="Napiš odpověď...">${obj.response || ""}</textarea>
+        <button onclick="sendResponse('${code}')">Odeslat odpověď</button>
+        <hr>
+      `;
+      container.appendChild(div);
     });
   } else {
-    alert("Nesprávné heslo!");
+    container.innerHTML = "<p>Žádné zprávy zatím nejsou.</p>";
   }
-}
+});
 
-function saveResponse(code) {
-  const response = document.getElementById("resp-" + code).value;
-  db.ref("messages/" + code).update({ response: response });
-  alert("Odpověď uložena.");
-}
+window.sendResponse = function(code) {
+  const responseText = document.getElementById("response-" + code).value;
+  const messageRef = ref(db, "messages/" + code);
+  update(messageRef, { response: responseText });
+};
