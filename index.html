@@ -1,1 +1,26 @@
-<!-- index.html: veřejná stránka s Firebase napojením -->
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SPP - Schránka důvěry</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img src="header.jpg" alt="Poradce" class="avatar">
+    <h1>SPP – Anonymní schránka důvěry</h1>
+  </header>
+  <main>
+    <form id="trustBoxForm">
+      <textarea id="messageInput" placeholder="Napiš anonymní zprávu..." required></textarea>
+      <button type="submit">Odeslat</button>
+    </form>
+    <p id="codeDisplay"></p>
+    <div id="responseContainer"></div>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

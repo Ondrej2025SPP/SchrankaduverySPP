@@ -1,1 +1,26 @@
-<!-- admin.html: administrace s připojením k Firebase -->
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Administrace – SPP</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Administrace schránky důvěry</h1>
+  </header>
+  <main>
+    <div id="loginSection">
+      <input type="password" id="adminPassword" placeholder="Zadej heslo" />
+      <button onclick="login()">Přihlásit se</button>
+    </div>
+    <div id="adminPanel" style="display:none;">
+      <ul id="messagesList"></ul>
+    </div>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
