@@ -1,1 +1,21 @@
-<!DOCTYPE html><html><head><title>Admin rozhraní</title><link rel='stylesheet' href='style.css'></head><body><h1>Admin sekce</h1></body></html>
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Administrace – SPP</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Administrace</h1>
+  <div id="login-section">
+    <input type="password" id="adminPass" placeholder="Zadej heslo">
+    <button onclick="login()">Přihlásit</button>
+  </div>
+  <div id="admin-section" style="display:none;">
+    <h2>Přijaté zprávy</h2>
+    <ul id="messageList"></ul>
+  </div>
+  <script src="admin.js"></script>
+</body>
+</html>

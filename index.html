@@ -1,1 +1,28 @@
-<!DOCTYPE html><html><head><title>SPP Schránka důvěry</title><link rel='stylesheet' href='style.css'></head><body><h1>Veřejná stránka</h1></body></html>
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>SPP – Schránka důvěry</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>SPP – Anonymní schránka důvěry</h1>
+  <div id="form-section">
+    <textarea id="messageInput" placeholder="Napište svou zprávu..." required></textarea>
+    <button onclick="submitMessage()">Odeslat anonymně</button>
+  </div>
+  <div id="code-display" style="display:none;">
+    <p>Vaše zpráva byla odeslána. Uložte si tento anonymní kód:</p>
+    <h2 id="generatedCode"></h2>
+  </div>
+  <hr>
+  <div id="response-section">
+    <h3>Zobrazit odpověď</h3>
+    <input type="text" id="codeInput" placeholder="Zadejte anonymní kód">
+    <button onclick="checkResponse()">Zobrazit odpověď</button>
+    <p id="responseDisplay"></p>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
