@@ -1,25 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <title>Admin – Schránka důvěry</title>
+  <title>Administrace – SPP</title>
   <link rel="stylesheet" href="style.css">
-  <script type="module" src="admin.js"></script>
 </head>
 <body>
-  <header>
+  <div class="container">
     <h1>Administrace – Schránka důvěry</h1>
-  </header>
-  <section class="admin-login" id="loginSection">
-    <h2>Přihlášení</h2>
-    <form id="adminLoginForm">
-      <input type="password" id="adminPassword" placeholder="Zadej heslo..." required>
-      <button type="submit">Přihlásit se</button>
-    </form>
-  </section>
-  <section class="admin-panel hidden" id="adminPanel">
-    <h2>Příchozí dotazy</h2>
-    <div id="questionsList"></div>
-  </section>
+    <div id="login-section">
+      <input type="password" id="adminPass" placeholder="Zadej heslo">
+      <button onclick="login()">Přihlásit</button>
+    </div>
+    <div id="admin-section" style="display:none;">
+      <h2>Přijaté zprávy</h2>
+      <ul id="messageList"></ul>
+    </div>
+  </div>
+  <script src="admin.js"></script>
 </body>
 </html>

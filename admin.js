@@ -1,55 +1,34 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getFirestore, collection, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-
-const firebaseConfig = {
-  apiKey: "AIzaSyByfibBg6Omq6nTfM4oDj6Vo6fKUhgn5Ls",
-  authDomain: "schranka-duvery-spp.firebaseapp.com",
-  databaseURL: "https://schranka-duvery-spp-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "schranka-duvery-spp",
-  storageBucket: "schranka-duvery-spp.appspot.com",
-  messagingSenderId: "357685746373",
-  appId: "1:357685746373:web:06c96b84c8043310e86eac",
-  measurementId: "G-1F2LRT5EPZ"
-};
-
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-document.getElementById("adminLoginForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const password = document.getElementById("adminPassword").value;
-  if (password === "SPP2055SD") {
-    document.getElementById("loginSection").classList.add("hidden");
-    document.getElementById("adminPanel").classList.remove("hidden");
-    loadQuestions();
+function login() {
+  const pass = document.getElementById('adminPass').value;
+  if (pass === 'schrankaduverySPP2025') {
+    document.getElementById('login-section').style.display = 'none';
+    document.getElementById('admin-section').style.display = 'block';
+    loadMessages();
   } else {
-    alert("Nesprávné heslo.");
+    alert('Nesprávné heslo');
   }
-});
-
-function loadQuestions() {
-  const qList = document.getElementById("questionsList");
-  onSnapshot(collection(db, "queries"), (snapshot) => {
-    qList.innerHTML = "";
-    snapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      const div = document.createElement("div");
-      div.innerHTML = `
-        <p><strong>Kód:</strong> ${data.code}</p>
-        <p><strong>Dotaz:</strong> ${data.question}</p>
-        <textarea id="answer-${docSnap.id}">${data.answer || ""}</textarea>
-        <button onclick="saveAnswer('${docSnap.id}')">Uložit odpověď</button><hr>`;
-      qList.appendChild(div);
-    });
-  });
 }
 
-window.saveAnswer = async function(id) {
-  const newAnswer = document.getElementById("answer-" + id).value;
-  await updateDoc(doc(db, "queries", id), {
-    answer: newAnswer
-  });
-  alert("Odpověď byla uložena.");
-};
+function loadMessages() {
+  const list = document.getElementById('messageList');
+  list.innerHTML = '';
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith('msg_')) {
+      const data = JSON.parse(localStorage.getItem(key));
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${key.slice(4)}</strong>: ${data.message}<br>
+        <textarea placeholder='Odpověď...'>${data.response || ''}</textarea>
+        <button onclick="saveResponse('${key}', this.previousElementSibling.value)">Uložit odpověď</button>`;
+      list.appendChild(li);
+    }
+  }
+}
+
+function saveResponse(key, response) {
+  const data = JSON.parse(localStorage.getItem(key));
+  data.response = response;
+  localStorage.setItem(key, JSON.stringify(data));
+  alert('Odpověď uložena.');
+}

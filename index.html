@@ -1,33 +1,35 @@
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <title>Schránka důvěry</title>
+  <title>Schránka důvěry – Právní poradna SPP</title>
   <link rel="stylesheet" href="style.css">
-  <script type="module" src="script.js"></script>
 </head>
 <body>
-  <header>
-    <img src="images/logo.jpg" alt="Logo" class="circular-image" />
-    <h1>Schránka důvěry – Studentská právní poradna</h1>
-  </header>
-  <main>
-    <section class="submission-form">
-      <h2>Odeslat anonymní dotaz</h2>
-      <form id="questionForm">
-        <textarea id="questionInput" placeholder="Zde napiš svůj dotaz..." required></textarea>
-        <button type="submit">Odeslat</button>
-      </form>
-      <div id="questionCode"></div>
-    </section>
-    <section class="check-answer">
-      <h2>Zkontrolovat odpověď</h2>
-      <form id="checkForm">
-        <input type="text" id="codeInput" placeholder="Zadej svůj kód..." required>
-        <button type="submit">Zobrazit odpověď</button>
-      </form>
-      <div id="answerSection"></div>
-    </section>
-  </main>
+  <div class="container">
+    <img src="header.jpg" alt="Poradci" class="header-img">
+    <h1>Schránka důvěry – Právní poradna SPP</h1>
+    <p class="intro">
+      Bezpečné místo pro anonymní sdílení problémů, podnětů či zpětné vazby.
+      Vaše identita zůstane chráněná. Odpověď naleznete po zadání anonymního kódu.
+    </p>
+    <div id="form-section">
+      <textarea id="messageInput" placeholder="Napište svou zprávu..." required></textarea>
+      <button onclick="submitMessage()">Odeslat anonymně</button>
+    </div>
+    <div id="code-display" style="display:none;">
+      <p>Vaše zpráva byla odeslána. Uložte si tento anonymní kód:</p>
+      <h2 id="generatedCode"></h2>
+    </div>
+    <hr>
+    <div id="response-section">
+      <h3>Zobrazit odpověď</h3>
+      <input type="text" id="codeInput" placeholder="Zadejte anonymní kód">
+      <button onclick="checkResponse()">Zobrazit odpověď</button>
+      <p id="responseDisplay"></p>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
