@@ -1,41 +1,55 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+import { getFirestore, collection, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDcJGaeBBHDsOhwFrAzR45-QNym-MsO2SA",
+  apiKey: "AIzaSyByfibBg6Omq6nTfM4oDj6Vo6fKUhgn5Ls",
   authDomain: "schranka-duvery-spp.firebaseapp.com",
   databaseURL: "https://schranka-duvery-spp-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "schranka-duvery-spp",
   storageBucket: "schranka-duvery-spp.appspot.com",
-  messagingSenderId: "189730453261",
-  appId: "1:189730453261:web:9c90552966f3f94a4c1926"
+  messagingSenderId: "357685746373",
+  appId: "1:357685746373:web:06c96b84c8043310e86eac",
+  measurementId: "G-1F2LRT5EPZ"
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 
-function login() {
-  const pwd = document.getElementById("adminPassword").value;
-  if (pwd === "schrankaduverySPP2025") {
-    document.getElementById("loginSection").style.display = "none";
-    document.getElementById("adminPanel").style.display = "block";
-    db.ref("messages").once("value", snapshot => {
-      const list = document.getElementById("messagesList");
-      list.innerHTML = "";
-      snapshot.forEach(child => {
-        const code = child.key;
-        const data = child.val();
-        const li = document.createElement("li");
-        li.innerHTML = `<strong>${code}</strong>: ${data.message}<br>
-        <textarea id="resp-${code}" placeholder="Odpověď...">${data.response || ""}</textarea>
-        <button onclick="saveResponse('${code}')">Uložit odpověď</button>`;
-        list.appendChild(li);
-      });
-    });
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+document.getElementById("adminLoginForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const password = document.getElementById("adminPassword").value;
+  if (password === "SPP2055SD") {
+    document.getElementById("loginSection").classList.add("hidden");
+    document.getElementById("adminPanel").classList.remove("hidden");
+    loadQuestions();
   } else {
-    alert("Nesprávné heslo!");
+    alert("Nesprávné heslo.");
   }
+});
+
+function loadQuestions() {
+  const qList = document.getElementById("questionsList");
+  onSnapshot(collection(db, "queries"), (snapshot) => {
+    qList.innerHTML = "";
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <p><strong>Kód:</strong> ${data.code}</p>
+        <p><strong>Dotaz:</strong> ${data.question}</p>
+        <textarea id="answer-${docSnap.id}">${data.answer || ""}</textarea>
+        <button onclick="saveAnswer('${docSnap.id}')">Uložit odpověď</button><hr>`;
+      qList.appendChild(div);
+    });
+  });
 }
 
-function saveResponse(code) {
-  const response = document.getElementById("resp-" + code).value;
-  db.ref("messages/" + code).update({ response: response });
-  alert("Odpověď uložena.");
-}
+window.saveAnswer = async function(id) {
+  const newAnswer = document.getElementById("answer-" + id).value;
+  await updateDoc(doc(db, "queries", id), {
+    answer: newAnswer
+  });
+  alert("Odpověď byla uložena.");
+};
