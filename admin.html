@@ -2,27 +2,25 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin – Schránka důvěry</title>
-  <link rel="stylesheet" href="style.css" />
-  <script type="module" src="admin.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Administrace – SPP</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>Admin rozhraní – Schránka důvěry</h1>
+    <h1>Administrace schránky důvěry</h1>
   </header>
-  <section class="admin-login" id="loginSection">
-    <h2>Přihlášení</h2>
-    <form id="adminLoginForm">
-      <input type="password" id="adminPassword" placeholder="Heslo" required />
-      <button type="submit">Přihlásit</button>
-    </form>
-  </section>
-  <section class="admin-panel hidden" id="adminPanel">
-    <h2>Seznam dotazů</h2>
-    <div id="questionsList"></div>
-  </section>
-  <footer>
-    <p>&copy; 2025 Studentská právní poradna</p>
-  </footer>
+  <main>
+    <div id="loginSection">
+      <input type="password" id="adminPassword" placeholder="Zadej heslo">
+      <button onclick="login()">Přihlásit se</button>
+    </div>
+    <div id="adminPanel" style="display:none;">
+      <ul id="messagesList"></ul>
+    </div>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script src="admin.js"></script>
 </body>
 </html>
