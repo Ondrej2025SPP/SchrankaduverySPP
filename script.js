@@ -44,7 +44,7 @@ document.getElementById("checkForm").addEventListener("submit", async (e) => {
   querySnapshot.forEach((doc) => {
     const data = doc.data();
     document.getElementById("answerSection").innerHTML = `<p><strong>Dotaz:</strong> ${data.question}</p><p><strong>Odpověď:</strong> ${data.answer || "Zatím bez odpovědi"}</p>`;
-    found = True;
+    found = true;
   });
 
   if (!found) {
