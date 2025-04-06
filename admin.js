@@ -1,4 +1,3 @@
-
 import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 import { app } from "./firebase-config.js";
 

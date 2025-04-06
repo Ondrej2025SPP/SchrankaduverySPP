@@ -1,4 +1,3 @@
-
 import { getDatabase, ref, push, get, child } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 import { app } from "./firebase-config.js";
 
