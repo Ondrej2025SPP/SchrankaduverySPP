@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <title>SPP Schránka důvěry</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <img src="header.jpg" class="header-img" alt="SPP Logo" />
+    <h1>Schránka důvěry – SPP</h1>
+    <p>Napiš anonymní zprávu právní poradně studentů.</p>
+    <form id="messageForm">
+      <textarea id="messageInput" placeholder="Tvoje zpráva..." required></textarea>
+      <button type="submit">Odeslat</button>
+    </form>
+    <div id="confirmation" style="display:none;">
+      <p>Děkujeme! Tvůj kód pro zpětné zobrazení odpovědi:</p>
+      <code id="replyCode"></code>
+    </div>
+  </div>
+  <script type="module" src="firebase-config.js"></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
