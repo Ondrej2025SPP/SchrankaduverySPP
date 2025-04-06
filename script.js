@@ -22,7 +22,7 @@ document.getElementById("messageForm").addEventListener("submit", function (e) {
   });
 });
 
-// Kontrola odpovědi podle zadaného kódu
+// Kontrola odpovědi podle kódu
 document.getElementById("checkReplyBtn").addEventListener("click", function () {
   const inputCode = document.getElementById("checkCode").value.trim();
   if (!inputCode) return;
